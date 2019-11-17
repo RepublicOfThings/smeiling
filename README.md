@@ -1,2 +1,3 @@
 # SmEILing™
-Django Smeiling website
+
+Official home of SmEILing™ dashboard application components.
