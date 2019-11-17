@@ -1,2 +1,2 @@
-# smeiling
+# SmEILing™
 Django Smeiling website
