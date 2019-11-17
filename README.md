@@ -1,0 +1,2 @@
+# smeiling
+Django Smeiling website
