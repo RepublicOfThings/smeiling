@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <title>SmEILing™ - {{ title }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <link href="{{ url_for('static', filename='content/republic.css') }}" rel="stylesheet">
+</head>
+
+    <body>
+
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 republic-toolbar border-bottom box-shadow">
+            <h5 class="my-0 mr-md-auto font-weight-normal"><img src="{{ url_for('static', filename='img/logos/vodafone.png') }}" style="max-width: 15%;"></h5>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" href="{{ url_for('home') }}">Home</a>
+                <a class="p-2 text-dark" href="{{ url_for('about') }}">About</a>
+                <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle text-dark" data-toggle="dropdown" href="#">Dashboards</a>
+                <div aria-labelledby="dropdown" class="dropdown-menu" id="dashboards_dropdown">
+
+                </div>
+            </nav>
+        </div>
+
+        {% block content %}
+
+        {% endblock %}
+
+      <footer class="footer border-top">
+          <div class="container">
+              <img style="max-height: 38px; padding: 5px;" src="{{ url_for('static', filename='img/logos/republic.png') }}">
+              <img style="max-height: 38px; padding: 5px;" src="{{ url_for('static', filename='img/logos/vodafone.png') }}">
+          </div>
+      </footer>
+    </body>
+
+    <script>
+
+        $(document).ready(function(){
+            let data = {{ dashboards|safe }};
+
+            $.each(data, function(key, _) {
+                let url = "{{ url_for('dashboard') }}?id_="+key;
+                let link = "<a href=" + url + " class='dropdown-item'>"+key+"</a>";
+                $("#dashboards_dropdown").append(link);
+            });
+        });
+    </script>
+
+</html>

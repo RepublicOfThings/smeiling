@@ -1,0 +1,65 @@
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.container {
+  max-width: 960px;
+}
+
+.pricing-header {
+  max-width: 700px;
+}
+
+.card-deck .card {
+  min-width: 220px;
+}
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+html body {
+    background: #eeeeee !important;
+}
+
+.republic-toolbar {
+    background-color: #ffffff;
+    border-color: #333;
+    color: #fff;
+}
+
+.btn-outline-primary {
+    color: #e50b19;
+    border-color: #e50b19;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background: #e50b19;
+    border-color: #e50b19;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px; /* Margin bottom by footer height */
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+    text-align: center;
+  height: 80px; /* Set the fixed height of the footer here */
+  line-height: 80px; /* Vertically center the text there */
+  background-color: #ffffff;
+}

@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vodademo-proxy-app
+  labels:
+    name: vodademo-proxy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vodademo-proxy-app
+    spec:
+      containers:
+      - name: vodademo-proxy
+        image: gcr.io/encoded-antler-258511/proxy
+        ports:
+          - containerPort: 5000
+        env:
+          - name: SUBPATH
+            value: /vodademo-proxy
+
+        imagePullPolicy: Always
+
+        readinessProbe:
+          httpGet:
+            path: /vodademo-proxy/ping
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /vodademo-proxy/ping
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5

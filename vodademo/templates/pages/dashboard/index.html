@@ -1,0 +1,39 @@
+{% extends "common/layout.html" %}
+
+{% block content %}
+
+    <div class="container-fluid" style="padding-top: 0px;">
+        <!-- embedded Splunk dashboard -->
+
+        <!-- holding elements (while dashboard is fetched) -->
+        <div id="holding" class="container-fluid">
+            <div class="jumbotron-loading-rtk" style="text-align: center;">
+                <div class="container">
+                    <h1 class="display-4 text-headline-rtk">Loading: {{ dashboard }}</h1>
+                    <p class>Fetching your dashboard, this may take a couple of seconds.</p>
+                    <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Cancel</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- actual Splunk dashboard embedded in iFrame -->
+        <div class="row">
+            <iframe id="dashboard" style="width: 100%; height: 100vh;  visibility: hidden;" src="{{ target }}" frameborder="no"></iframe>
+        </div>
+    </div>
+
+    <!-- script to hide potential non-RoT branding while dashboard loads -->
+    <script>
+
+    $(document).ready(function(){
+       setTimeout(function(){
+           $("#holding").remove();
+           document.getElementById('dashboard').style.visibility = "visible";
+           }, 3500);  // hold for 3.5 seconds.
+    });
+
+    </script>
+
+
+
+{% endblock %}

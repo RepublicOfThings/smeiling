@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  centauri:
+    build:
+      context: .
+      dockerfile: centauri/Dockerfile
+    ports:
+      - 8000:8000
+
+  proxy:
+     build:
+      context: .
+      dockerfile: proxy/Dockerfile
+     ports:
+       - 5001:5001

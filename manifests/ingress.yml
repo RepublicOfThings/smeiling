@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: smeiling-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  tls:
+    - secretName: smeiling-tls
+  rules:
+  - http:
+      paths:
+        - path: "/vodademo-proxy/*"
+          backend:
+            serviceName: vodademo-proxy
+            servicePort: vodademoproxy
+
+        - path: "/vodademo-app/*"
+          backend:
+            serviceName: vodademo
+            servicePort: vodademo
