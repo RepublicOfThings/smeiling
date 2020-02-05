@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: vodademo-proxy
-        image: gcr.io/encoded-antler-258511/proxy
+        image: rothub/proxy
         ports:
           - containerPort: 5000
         env:
@@ -21,6 +21,11 @@ spec:
             value: /vodademo-proxy
 
         imagePullPolicy: Always
+
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
 
         readinessProbe:
           httpGet:

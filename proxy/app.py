@@ -1,21 +1,29 @@
 import os
+import uuid
+import logging
 import requests
 
 from werkzeug.routing import Rule
 from flask import Flask, request, Response, redirect, url_for, render_template
 
+logging.basicConfig(level=logging.DEBUG)
 
 SUBPATH = os.getenv("SUBPATH", "/proxy")
 
-SPLUNK_USERNAME = "vodademo"
-SPLUNK_PASSWORD = "b98puxPJinkQ"
-SPLUNK_BASE_URL = "http://37.48.244.182:8000"
-
-DASHBOARDS = {'Vodafone': {'app': 'rot_smart_homes_app', 'name': 'smeiling_dashboard_vodafone_demo_v10'}}
-
+SPLUNK_USERNAME = "andrewb"
+SPLUNK_PASSWORD = "PkbdAGSdCJa8"
+SPLUNK_BASE_URL = "http://37.48.244.187:8000"
 
 app = Flask(__name__)
 
+app.config.update(
+    DEBUG=True,
+    SECRET_KEY=uuid.uuid4().hex
+)
+
+
+DASHBOARDS = {'Vodafone': {'app': 'qrytical', 'name': 'combo_dashboard'}}
+LOGGER = app.logger
 
 app.url_rule_class = lambda path, **options: Rule(SUBPATH + path, **options)
 
@@ -27,7 +35,8 @@ session = requests.Session()
 def proxy(path: str):
 
     try:
-        app.logger.debug(SPLUNK_BASE_URL)
+        # app.logger.debug(path)
+        # app.logger.debug(request.args)
         data = session.get(
             f"{SPLUNK_BASE_URL}/en-US/{path}", params=request.args
         ).content
@@ -36,6 +45,9 @@ def proxy(path: str):
         if path.endswith("dashboard.js"):
             data = data.replace('make_url("/static/build/pages/enterprise")',
                                 f'"{SUBPATH}" + make_url("/static/build/pages/enterprise")')
+        elif path.endswith("common.js"):
+            data = data.replace('splunkUtil.make_url',
+                                f'"{SUBPATH}" + splunkUtil.make_url')
 
     except UnicodeDecodeError:
         data = session.get(
@@ -43,17 +55,19 @@ def proxy(path: str):
         ).content
 
     if path.endswith(".js"):
-        return Response(data, mimetype="text/javascript")
+        return Response(data, mimetype="text/javascript", headers={"content-length": len(data)})
     elif path.endswith(".css"):
-        return Response(data, mimetype="text/css")
+        return Response(data, mimetype="text/css", headers={"content-length": len(data)})
     elif path.endswith(".html"):
-        return Response(data, mimetype="text/html")
+        return Response(data, mimetype="text/html", headers={"content-length": len(data)})
+    elif path.endswith(".png"):
+        return Response(data, mimetype="image/png", headers={"content-length": len(data)})
     elif (
         path.endswith(".json")
         or request.args.get("output_mode") == "json"
         or request.args.get("output_mode") == "json_cols"
     ):
-        return Response(data, mimetype="text/json")
+        return Response(data, mimetype="text/json", headers={"content-length": len(data)})
 
     return data
 
@@ -91,10 +105,13 @@ def login():
         "password": SPLUNK_PASSWORD
     }
 
+    LOGGER.debug("Logging in...")
     response = session.get(f"{SPLUNK_BASE_URL}/en-US/account/insecurelogin", params=args)
+    LOGGER.debug("Logged in.")
 
     if response.status_code == 200:
-        return redirect(f"{SUBPATH}/en-US/{return_to}")
+        LOGGER.debug("Redirecting...")
+        return redirect(f"https://localhost:443{SUBPATH}/en-US/{return_to}")
     else:
         return redirect(url_for("error", message=response.content, status=response.status_code))
 

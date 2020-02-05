@@ -4,7 +4,7 @@ EXPOSE 5000
 
 RUN useradd republic
 
-RUN pip install flask gunicorn requests
+RUN pip install flask gunicorn requests flask-login
 
 COPY /vodademo /app
 

@@ -1,0 +1,186 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+<style>
+
+
+    .card-container.card {
+        max-width: 350px;
+        padding: 40px 40px;
+        align-content: center;
+        margin: 0 auto;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        font-weight: 700;
+        height: 36px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: default;
+    }
+
+    /*
+     * Card component
+     */
+    .card {
+        background-color: #f7f7f7;
+        /* just in case there no content*/
+
+        margin: 0 auto 25px;
+        margin-top: 50px;
+        /* shadows and rounded borders */
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-img-card {
+        width: 96px;
+        height: 96px;
+        margin: 0 auto 10px;
+        display: block;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    /*
+     * Form styles
+     */
+    .profile-name-card {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        margin: 10px 0 0;
+        min-height: 1em;
+    }
+
+    .reauth-email {
+        display: block;
+        color: #999;
+        line-height: 2;
+        margin-bottom: 10px;
+        font-size: 14px;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .form-signin #inputEmail,
+    .form-signin #inputPassword {
+        direction: ltr;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .form-signin input[type=email],
+    .form-signin input[type=password],
+    .form-signin input[type=text],
+    .form-signin button {
+        width: 100%;
+        display: block;
+        margin-bottom: 10px;
+        z-index: 1;
+        position: relative;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .form-signin .form-control:focus {
+        border-color: rgb(104, 145, 162);
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
+    }
+
+    .btn.btn-signin {
+        background-color: #df197e;
+        padding: 0px;
+        font-weight: 700;
+        font-size: 14px;
+        height: 35px;
+        color: white;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        border: none;
+        -o-transition: all 0.218s;
+        -moz-transition: all 0.218s;
+        -webkit-transition: all 0.218s;
+        transition: all 0.218s;
+    }
+
+    .btn.btn-signin:hover,
+    .btn.btn-signin:active,
+    .btn.btn-signin:focus {
+        background-color: #e24496;
+    }
+
+    .forgot-password {
+        color: rgb(104, 145, 162);
+    }
+
+    .forgot-password:hover,
+    .forgot-password:active,
+    .forgot-password:focus {
+        color: rgb(12, 97, 33);
+    }
+</style>
+
+<div class="container" style="padding-top: 100px;">
+
+    <div class="card card-container mx-auto" style="float: none; color: white;">
+        <div class="logo">
+            <img ,
+                 class="img-responsive card-img col-md-12"
+                 src="{{ url_for('logos', variant='smeiling') }}" style="max-width: 100%;"
+                 style="align-content: center;">
+        </div>
+        <div class="form">
+            <form action="#" class="form-signin" method="post">
+                <p class="profile-name-card" id="profile-name"></p>
+
+                <span class="reauth-email" id="reauth-email"></span>
+
+                <input autofocus
+                       class="form-control"
+                       id="id_username"
+                       id="inputEmail"
+                       name="username"
+                       placeholder="Username" required type="username">
+
+                <input class="form-control"
+                       id="inputPassword"
+                       id="id_password"
+                       name="password"
+                       placeholder="Password"
+                       required type="password">
+
+                <button class="btn btn-rtk"
+                        style="background-color: #999999; color: white;"
+                        type="submit"
+                        value="Login">Login
+                </button>
+
+            </form>
+        </div>
+
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="text-align-all: center; font-size: 8px;">Login to this app.</div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

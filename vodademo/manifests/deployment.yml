@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: vodademo
-        image: gcr.io/encoded-antler-258511/vodademo
+        image: rothub/vodademo
         ports:
           - containerPort: 5000
         env:
