@@ -1,5 +1,6 @@
 import os
 import uuid
+import logging
 import requests
 from urllib.parse import urljoin
 from werkzeug.routing import Rule
@@ -7,6 +8,8 @@ from flask import Flask, render_template, request, abort, redirect, url_for, Res
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from utils import get_user
+
+logging.basicConfig(level=logging.DEBUG)
 
 PREFIX = os.getenv("SUBPATH", "/")
 
@@ -24,11 +27,16 @@ CONFIG = {
 }
 
 
+stylesheet = "content/republic.css"
+
+
 images = {
-    "smeiling": "img/logos/SmEILing.png",
-    "republic": "img/logos/republic_logo.png",
-    "partner": "img/logos/republic_logo.png"
+    "smeiling": "img/logos/smeiling.png",
+    "republic": "img/logos/republic.png",
+    "partner": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Yin_and_yang.svg/600px-Yin_and_yang.svg.png"
 }
+
+# https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Yin_and_yang.svg/600px-Yin_and_yang.svg.png
 
 
 app = Flask(__name__,
@@ -97,10 +105,15 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/logos/<string:variant>")
-def logos(variant):
+@app.route("/content/<string:variant>")
+def content(variant):
 
-    path = images[variant]
+    if variant in images:
+        path = images[variant]
+    elif variant == "stylesheet":
+        path = stylesheet
+    else:
+        raise ValueError(f"Unknown variant '{variant}'.")
 
     if path.startswith("http"):
         response = requests.get(path)
@@ -109,7 +122,8 @@ def logos(variant):
         else:
             return Response(response.content, status=response.status_code)
     else:
-        with open(os.path.join(STATIC_PATH, path)) as file:
+        with open(os.path.join("static", path), "rb") as file:
+            app.logger.debug(f"{os.path.join('static', path)}'")
             return Response(file.read(), status=200)
 
 
